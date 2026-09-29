@@ -1,0 +1,35 @@
+{
+  "game": {
+    "id": "string",
+    "startTime": "ISO-8601",
+    "homeTeam": "string",
+    "awayTeam": "string",
+    "weather": {
+      "temperature": 0,
+      "windMph": 0,
+      "rainPct": 0
+    },
+    "markets": {
+      "spread": [],
+      "moneyline": [],
+      "total": []
+    },
+    "model": {
+      "projectedHomeScore": 0,
+      "projectedAwayScore": 0,
+      "homeWinProb": 0,
+      "coverProb": 0,
+      "overProb": 0,
+      "edge": 0
+    }
+  },
+  "predictionSnapshot": {
+    "predictionId": "string",
+    "timestamp": "ISO-8601",
+    "modelVersion": "string",
+    "lineAtPrediction": {},
+    "inputSnapshot": {},
+    "output": {},
+    "result": null
+  }
+}
