@@ -180,8 +180,14 @@ function renderGames(){
   const market=document.getElementById("marketTable");
   const grid=document.getElementById("gameGrid");
   if(!market||!grid)return;
-  market.innerHTML=games.map(g=>`<tr><td><b>${g.a}</b> @ ${g.b}<div class="mini">${g.time}</div></td><td>${g.spread}</td><td>${g.total}</td><td>${g.ml}</td><td class="${g.live?'sub':'good'}">${g.live?'Live schedule':'Demo'}</td></tr>`).join("");
-  grid.innerHTML=games.map(g=>`<div class="card game"><div><div class="teams">${g.a} @ ${g.b}</div><div class="time">${g.time} • ${g.loc}</div></div><div style="text-align:right"><div>${g.live?'Markets coming next':' '+g.spread}</div><div class="mini">${g.live?'Live schedule':'O/U '+g.total}</div><div class="edge">${g.live?'Schedule verified':'Edge '+g.edge}</div><button class="btn" style="margin-top:8px" onclick="openGame('${(g.a||'').replace(/'/g,"\\'")}')">Analyze</button></div></div>`).join("");
+  market.innerHTML=games.map(g=>{
+    const o=g.odds; const bestSpread=bestMarket(o,"spreads"); const bestTotal=bestMarket(o,"totals"); const bestMl=bestMoneyline(o);
+    return `<tr><td><b>${g.a}</b> @ ${g.b}<div class="mini">${g.time}</div></td><td>${bestSpread?.display||"—"}</td><td>${bestTotal?.display||"—"}</td><td>${bestMl?.display||"—"}</td><td class="${o?'good':'sub'}">${o?"Live odds":"Schedule only"}</td></tr>`;
+  }).join("");
+  grid.innerHTML=games.map(g=>{
+    const o=g.odds; const bestSpread=bestMarket(o,"spreads"); const bestTotal=bestMarket(o,"totals"); const bestMl=bestMoneyline(o);
+    return `<div class="card game"><div><div class="teams">${g.a} @ ${g.b}</div><div class="time">${g.time} • ${g.loc}</div></div><div style="text-align:right"><div>${bestSpread?.display||"Spread —"}</div><div class="mini">${bestTotal?.display||"Total —"} • ${bestMl?.display||"ML —"}</div><div class="edge">${o?"Live sportsbook market":"Schedule verified"}</div><button class="btn" style="margin-top:8px" onclick="openGame('${(g.a||'').replace(/'/g,"\'")}')">Analyze</button></div></div>`;
+  }).join("");
 }
 
 const teams=[
@@ -192,6 +198,19 @@ const teams=[
  ["Georgia","SEC","Power 96.4","+9.8","5–4 ATS"],
  ["Texas","SEC","Power 94.1","+7.9","7–2 ATS"]
 ];
+function bestMarket(odds,type){
+  if(!odds?.best?.[type]) return null;
+  const vals=Object.entries(odds.best[type]);
+  if(!vals.length) return null;
+  const [name,x]=vals[0];
+  return {display:`${name} ${x.point!==null&&x.point!==undefined?x.point+" ":""}${x.price>0?"+":""}${x.price} (${x.bookmaker})`, raw:x};
+}
+function bestMoneyline(odds){
+  if(!odds?.best?.h2h) return null;
+  const vals=Object.entries(odds.best.h2h); if(!vals.length) return null;
+  const [name,x]=vals[0];
+  return {display:`${name} ${x.price>0?"+":""}${x.price} (${x.bookmaker})`, raw:x};
+}
 function pickCard(p){return `<div class="card pick"><div class="pickTop"><div class="rank">#${p.rank} ${p.type}</div><div class="tag">${p.conf}/100</div></div><div class="match">${p.team} ${p.market}</div><div class="market">vs ${p.opp} • Best price ${p.odds}</div><div class="numbers"><div class="num"><b>${p.prob}%</b><span>Model probability</span></div><div class="num"><b>${p.model}</b><span>Model projection</span></div><div class="num"><b>${p.edge}</b><span>Model edge</span></div></div><div class="statLabel">Confidence</div><div class="bar"><i style="width:${p.conf}%"></i></div><div class="why" style="margin-top:12px"><strong>Why:</strong> ${p.why}<br><strong>Risk:</strong> ${p.risk}</div><button class="btn" style="margin-top:14px;width:100%" onclick="openGame('${p.team}')">View full analysis</button></div>`}
 document.getElementById("dashPicks").innerHTML=picks.slice(0,3).map(pickCard).join("");
 document.getElementById("allPicks").innerHTML=picks.map(pickCard).join("");
