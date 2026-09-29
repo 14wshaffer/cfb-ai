@@ -3,230 +3,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CFB AI — College Football Intelligence</title>
+<title>College Football AI</title>
 <style>
-:root{--bg:#080b12;--panel:#101520;--panel2:#151b27;--line:#232c3c;--text:#f4f7fb;--muted:#8e9aae;--accent:#62e6a7;--accent2:#70a7ff;--warn:#f6c85f;--danger:#ff7185;--shadow:0 18px 50px rgba(0,0,0,.28)}
-*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 20% -10%,#17243b 0,transparent 34%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-button,input,select{font:inherit} button{cursor:pointer}
-.app{display:flex;min-height:100vh}.sidebar{width:250px;background:rgba(9,12,18,.9);border-right:1px solid var(--line);padding:24px 16px;position:fixed;inset:0 auto 0 0;z-index:4}
-.logo{display:flex;align-items:center;gap:10px;padding:4px 10px 26px;font-weight:800;letter-spacing:-.5px}.logoMark{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--accent),#3ca7ff);display:grid;place-items:center;color:#07100d;font-weight:900}.logo span{color:var(--accent)}
-.nav{display:grid;gap:6px}.nav button{border:0;background:transparent;color:var(--muted);text-align:left;padding:12px 13px;border-radius:10px}.nav button:hover,.nav button.active{background:var(--panel2);color:var(--text)}.nav button.active{box-shadow:inset 3px 0 var(--accent)}
-.sideFoot{position:absolute;bottom:20px;left:18px;right:18px;color:var(--muted);font-size:12px;line-height:1.5}
-.main{margin-left:250px;width:calc(100% - 250px);padding:26px 30px 50px}.top{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:26px}.eyebrow{color:var(--accent);font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}.title{font-size:30px;font-weight:850;letter-spacing:-1.2px;margin:5px 0}.sub{color:var(--muted);font-size:14px}.search{display:flex;gap:8px}.search input{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 13px;color:var(--text);width:220px}
-.grid{display:grid;gap:16px}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.card{background:linear-gradient(180deg,rgba(19,26,38,.95),rgba(13,18,28,.95));border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}.statLabel{color:var(--muted);font-size:12px}.stat{font-size:27px;font-weight:800;margin-top:7px}.delta{font-size:12px;margin-top:5px;color:var(--accent)}.section{margin-top:26px}.sectionHead{display:flex;justify-content:space-between;align-items:end;margin-bottom:12px}.sectionTitle{font-size:18px;font-weight:800}.link{color:var(--accent);font-size:12px;cursor:pointer}
-.pick{position:relative;overflow:hidden}.pick:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}.pickTop{display:flex;justify-content:space-between;align-items:center}.rank{font-weight:850}.tag{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#08110d;background:var(--accent);padding:5px 8px;border-radius:999px;font-weight:800}.match{font-size:20px;font-weight:800;margin:13px 0 2px}.market{color:var(--muted);font-size:13px}.numbers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}.num{background:#0b1018;border:1px solid var(--line);padding:10px;border-radius:10px}.num b{display:block;font-size:17px}.num span{font-size:10px;color:var(--muted);text-transform:uppercase}.why{font-size:12px;color:#c5cedb;line-height:1.55}.why strong{color:var(--text)}.bar{height:7px;background:#202938;border-radius:99px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px}
-.table{width:100%;border-collapse:collapse;font-size:13px}.table th{color:var(--muted);font-weight:600;text-align:left;padding:11px;border-bottom:1px solid var(--line)}.table td{padding:13px 11px;border-bottom:1px solid #1c2432}.good{color:var(--accent)}.warn{color:var(--warn)}.bad{color:var(--danger)}
-.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#182130;color:#c7d0dc;font-size:11px}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:10px 13px;border-radius:9px}.btn.primary{background:var(--accent);color:#07110c;border-color:var(--accent);font-weight:800}.btn:hover{filter:brightness(1.08)}
-.view{display:none}.view.active{display:block}.game{display:flex;justify-content:space-between;gap:16px;align-items:center}.teams{font-weight:800;font-size:17px}.time{color:var(--muted);font-size:12px}.edge{font-weight:850;color:var(--accent)}.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.filters select{background:var(--panel);border:1px solid var(--line);color:var(--text);padding:9px;border-radius:9px}
-.detailHeader{display:flex;justify-content:space-between;gap:20px;align-items:center}.score{font-size:34px;font-weight:900}.mini{font-size:11px;color:var(--muted)}
-.chart{height:160px;display:flex;align-items:end;gap:7px;padding-top:15px}.chart span{flex:1;background:linear-gradient(180deg,var(--accent2),#253d66);border-radius:5px 5px 0 0;min-height:10px}.chartLabels{display:flex;justify-content:space-between;color:var(--muted);font-size:10px}
-.learning{display:grid;grid-template-columns:1fr 1fr;gap:12px}.lesson{padding:13px;border:1px solid var(--line);border-radius:11px;background:#0b1018}.lesson b{font-size:13px}.lesson p{margin:5px 0 0;color:var(--muted);font-size:12px;line-height:1.45}
-.empty{padding:45px;text-align:center;color:var(--muted)}
-@media(max-width:1050px){.sidebar{width:78px}.sidebar .logo span,.sidebar .nav button span,.sideFoot{display:none}.nav button{text-align:center}.main{margin-left:78px;width:calc(100% - 78px)}.g4{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:700px){.sidebar{display:none}.main{margin-left:0;width:100%;padding:18px}.top{align-items:flex-start;flex-direction:column}.search{width:100%}.search input{width:100%}.g4,.g3,.g2{grid-template-columns:1fr}.numbers{grid-template-columns:1fr 1fr 1fr}.detailHeader{flex-direction:column;align-items:flex-start}}
+:root{--bg:#071018;--panel:#0d1822;--panel2:#111f2b;--line:#213342;--text:#eef5fa;--muted:#8fa4b4;--accent:#45b6ff;--green:#39d98a;--red:#ff6675;--gold:#ffc857}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#061019,#09151f 55%,#071018);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.app{display:flex;min-height:100vh}.sidebar{width:235px;background:#08121b;border-right:1px solid var(--line);padding:22px 14px;position:fixed;inset:0 auto 0 0}.brand{font-weight:800;font-size:19px;padding:8px 12px 24px}.brand span{color:var(--accent)}nav button{width:100%;text-align:left;background:transparent;color:var(--muted);border:0;padding:12px;border-radius:9px;font-size:14px;margin:2px 0;cursor:pointer}nav button.active,nav button:hover{background:#102333;color:#fff}.main{margin-left:235px;width:calc(100% - 235px);padding:28px 34px}.top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:24px}.eyebrow{color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.title{font-size:30px;font-weight:800;margin:5px 0}.sub{color:var(--muted);font-size:14px}.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px #39d98a}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}.toolbar input,.toolbar select{background:#0c1822;border:1px solid var(--line);color:#fff;border-radius:8px;padding:10px 12px}.btn{background:#123149;color:#fff;border:1px solid #24506d;border-radius:8px;padding:10px 14px;cursor:pointer}.btn:hover{background:#17415d}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}.card{background:linear-gradient(180deg,#0d1924,#0b151e);border:1px solid var(--line);border-radius:13px;overflow:hidden}.cardhead{padding:16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:15px}.teams{font-size:17px;font-weight:750}.time{font-size:12px;color:var(--muted);margin-top:6px}.book{font-size:11px;color:var(--muted)}.market{padding:14px 16px;border-bottom:1px solid #1a2a37}.market:last-child{border-bottom:0}.market-title{display:flex;justify-content:space-between;color:#c8d7e1;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:9px}.books{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}.bookbox{background:#101f2b;border:1px solid #203543;border-radius:8px;padding:9px}.bookname{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.price{font-weight:750;font-size:14px;margin-top:3px}.best{border-color:#2f8b67;background:#0d251d}.best .bookname{color:#75dfae}.empty{padding:45px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.error{padding:16px;border:1px solid #6e3038;background:#241218;color:#ffb7bf;border-radius:10px;margin-bottom:16px}.footer{color:#718797;font-size:11px;margin-top:22px}.hide{display:none}@media(max-width:800px){.sidebar{position:static;width:100%;height:auto}.app{display:block}.main{margin-left:0;width:100%;padding:20px}.sidebar nav{display:flex;overflow:auto}.sidebar nav button{min-width:max-content}.top{display:block}.status{margin-top:12px}}
 </style>
 </head>
 <body>
 <div class="app">
 <aside class="sidebar">
-  <div class="logo"><div class="logoMark">CF</div><div>CFB <span>AI</span></div></div>
-  <nav class="nav">
-    <button class="active" data-view="dashboard">⌂ <span>Dashboard</span></button>
-    <button data-view="games">◈ <span>Games & Markets</span></button>
-    <button data-view="picks">🔥 <span>AI Picks</span></button>
-    <button data-view="teams">◎ <span>Teams</span></button>
-    <button data-view="parlay">✦ <span>Parlay Lab</span></button>
-    <button data-view="model">◌ <span>Model Lab</span></button>
-    <button data-view="learning">🧠 <span>What We Learned</span></button>
+  <div class="brand">COLLEGE <span>FOOTBALL AI</span></div>
+  <nav>
+    <button>Dashboard</button>
+    <button>AI Picks</button>
+    <button class="active">Games & Markets</button>
+    <button>Teams</button>
+    <button>Parlay Lab</button>
+    <button>Model Lab</button>
+    <button>What We're Learning</button>
   </nav>
-  <div class="sideFoot">Analytics prototype<br>Live odds/API connectors can be attached without changing the interface.</div>
 </aside>
 <main class="main">
-<header class="top">
-  <div><div class="eyebrow">College Football Intelligence</div><div class="title" id="pageTitle">Good afternoon, Will.</div><div class="sub">Data • Research • Models • Market Intelligence</div></div>
-  <div class="search"><input id="teamSearch" placeholder="Search team, game or market…"></div>
-</header>
-
-<section id="dashboard" class="view active">
-  <div class="grid g4">
-    <div class="card"><div class="statLabel">Model Record</div><div class="stat">38–24</div><div class="delta">+14.6 units</div></div>
-    <div class="card"><div class="statLabel">Model ROI</div><div class="stat">+11.8%</div><div class="delta">Last 30 days</div></div>
-    <div class="card"><div class="statLabel">Avg. Model Edge</div><div class="stat">+2.7 pts</div><div class="delta">Across spread picks</div></div>
-    <div class="card"><div class="statLabel">Calibration</div><div class="stat">94%</div><div class="delta">Probability reliability</div></div>
+  <div class="top">
+    <div>
+      <div class="eyebrow">Live market intelligence</div>
+      <div class="title">Games & Markets</div>
+      <div class="sub">Real college football schedules and sportsbook markets from your live data feed.</div>
+    </div>
+    <div class="status"><span class="dot" id="statusDot"></span><span id="statusText">Connecting…</span></div>
   </div>
 
-  <div class="section"><div class="sectionHead"><div class="sectionTitle">🔥 AI Picks of the Week</div><div class="link" onclick="showView('picks')">View all →</div></div>
-    <div class="grid g3" id="dashPicks"></div>
+  <div class="toolbar">
+    <input id="search" placeholder="Search team…" />
+    <select id="week"><option value="">All weeks</option></select>
+    <button class="btn" id="refresh">Refresh live data</button>
   </div>
 
-  <div class="section"><div class="sectionHead"><div class="sectionTitle">📊 Today's Market</div><div class="link" onclick="showView('games')">All games →</div></div>
-    <div class="card"><table class="table"><thead><tr><th>Game</th><th>Spread</th><th>Total</th><th>Model</th><th>Edge</th></tr></thead><tbody id="marketTable"></tbody></table></div>
-  </div>
-
-  <div class="section"><div class="grid g2">
-    <div class="card"><div class="sectionTitle">🚨 Market Movement</div><div style="margin-top:12px" id="moves"></div></div>
-    <div class="card"><div class="sectionTitle">🧠 What the Model Learned</div><div class="learning" style="margin-top:12px"><div class="lesson"><b>OL injuries</b><p>Recent backtesting suggests the current model underweighted offensive-line absences.</p></div><div class="lesson"><b>Weather uncertainty</b><p>Totals require wider uncertainty bands when wind forecasts are unstable.</p></div></div></div>
-  </div></div>
-</section>
-
-<section id="picks" class="view">
-  <div class="sectionHead"><div><div class="sectionTitle">🔥 AI Picks of the Week</div><div class="sub">Ranked by probability, market edge, model agreement and data quality.</div></div></div>
-  <div class="filters"><select><option>All markets</option><option>Spread</option><option>Moneyline</option><option>Total</option></select><select><option>All confidence</option><option>85+</option><option>75+</option><option>65+</option></select><select><option>All conferences</option><option>ACC</option><option>SEC</option><option>Big Ten</option></select></div>
-  <div class="grid g2" id="allPicks"></div>
-</section>
-
-<section id="games" class="view">
-  <div class="sectionHead"><div><div class="sectionTitle">Games & Markets</div><div id="liveStatus" class="sub" style="margin-top:6px">Connecting to live schedule…</div><div class="sub">Current interface supports live-data connectors; demo values are explicitly labeled.</div></div></div>
-  <div class="filters"><select><option>Saturday</option><option>Friday</option><option>Thursday</option></select><select><option>All conferences</option><option>ACC</option><option>SEC</option></select><select><option>All markets</option><option>Spread</option><option>Total</option><option>Moneyline</option></select></div>
-  <div class="grid g2" id="gameGrid"></div>
-</section>
-
-<section id="teams" class="view">
-  <div class="sectionHead"><div><div class="sectionTitle">Team Intelligence</div><div class="sub">Searchable team profiles with power ratings and betting history.</div></div></div>
-  <div class="grid g3" id="teamGrid"></div>
-</section>
-
-<section id="parlay" class="view">
-  <div class="sectionHead"><div><div class="sectionTitle">✦ AI Parlay Lab</div><div class="sub">Builds combinations while accounting for probability and correlation.</div></div></div>
-  <div class="grid g2">
-    <div class="card"><div class="sectionTitle">Risk profile</div><div class="filters" style="margin-top:12px"><button class="btn primary" onclick="setParlay('Conservative',this)">Conservative</button><button class="btn" onclick="setParlay('Moderate',this)">Moderate</button><button class="btn" onclick="setParlay('Aggressive',this)">Aggressive</button></div><div id="parlayLegs"></div></div>
-    <div class="card"><div class="sectionTitle">Parlay math</div><div style="margin-top:15px" id="parlayMath"></div></div>
-  </div>
-</section>
-
-<section id="model" class="view">
-  <div class="sectionHead"><div><div class="sectionTitle">◌ Model Lab</div><div class="sub">Ensemble architecture and historical performance.</div></div></div>
-  <div class="grid g4">
-    <div class="card"><div class="statLabel">Model Version</div><div class="stat">v1.3</div><div class="delta">Current</div></div>
-    <div class="card"><div class="statLabel">Simulations / game</div><div class="stat">50,000</div><div class="delta">When computationally practical</div></div>
-    <div class="card"><div class="statLabel">Data freshness</div><div class="stat">Live*</div><div class="delta">*API connector required</div></div>
-    <div class="card"><div class="statLabel">Predictions logged</div><div class="stat">1,284</div><div class="delta">Immutable snapshots</div></div>
-  </div>
-  <div class="section"><div class="card"><div class="sectionTitle">Ensemble components</div><table class="table" style="margin-top:10px"><tbody><tr><td>Elo / Power Rating</td><td>22%</td><td class="good">Stable</td></tr><tr><td>Efficiency / EPA</td><td>27%</td><td class="good">Strong</td></tr><tr><td>Matchup Model</td><td>18%</td><td class="good">Strong</td></tr><tr><td>Market Model</td><td>15%</td><td class="good">Strong</td></tr><tr><td>Injury / Roster</td><td>10%</td><td class="warn">Needs more data</td></tr><tr><td>Context / Weather</td><td>8%</td><td class="warn">Adaptive</td></tr></tbody></table></div></div>
-  <div class="section"><div class="grid g2"><div class="card"><div class="sectionTitle">Calibration</div><div class="chart" id="calChart"></div><div class="chartLabels"><span>50%</span><span>60%</span><span>70%</span><span>80%</span><span>90%</span></div></div><div class="card"><div class="sectionTitle">Backtest notes</div><div class="learning" style="margin-top:12px"><div class="lesson"><b>Spread</b><p>Model is strongest when market/model disagreement exceeds 2 points and injury uncertainty is low.</p></div><div class="lesson"><b>Totals</b><p>Model is more sensitive to pace and weather than simple season-average totals.</p></div></div></div></div></div>
-</section>
-
-<section id="learning" class="view">
-  <div class="sectionHead"><div><div class="sectionTitle">🧠 What the Model Learned</div><div class="sub">Post-game analysis is stored separately from the original immutable prediction.</div></div></div>
-  <div class="grid g3">
-    <div class="card"><div class="statLabel">Predictions analyzed</div><div class="stat">1,284</div><div class="delta">Across current model history</div></div>
-    <div class="card"><div class="statLabel">Factors improved</div><div class="stat">17</div><div class="delta">Weighting updates</div></div>
-    <div class="card"><div class="statLabel">Model revisions</div><div class="stat">3</div><div class="delta">v1.0 → v1.3</div></div>
-  </div>
-  <div class="section"><div class="grid g2"><div class="card"><div class="sectionTitle">Recent findings</div><div class="learning" style="margin-top:12px"><div class="lesson"><b>1. Offensive line</b><p>Increase injury impact when multiple starters are unavailable.</p></div><div class="lesson"><b>2. Tempo mismatch</b><p>Large pace gaps can widen total uncertainty.</p></div><div class="lesson"><b>3. Turnovers</b><p>Regress extreme turnover margins toward expectation rather than treating them as fully predictive.</p></div><div class="lesson"><b>4. Market movement</b><p>Late line movement deserves more weight when supported by verified roster news.</p></div></div></div><div class="card"><div class="sectionTitle">Learning guardrails</div><p class="sub" style="line-height:1.7">Historical predictions remain immutable. The learning system may change future model weights, but it cannot rewrite what the model knew before kickoff. Each prediction stores its timestamp, line, input snapshot and model version.</p></div></div></div>
-</section>
+  <div id="error" class="error hide"></div>
+  <div id="games" class="grid"></div>
+  <div class="footer">Odds are displayed only when returned by the connected sportsbook feed. No odds are invented or substituted.</div>
 </main>
 </div>
 
 <script>
-const picks=[
- {rank:1,team:"Virginia Tech",market:"-3.5",opp:"Pittsburgh",conf:91,prob:67,proj:"31–24",model:"-6.2",edge:"+2.7 pts",odds:"-105",why:"Rushing efficiency, defensive matchup, home-field adjustment.",risk:"QB uncertainty and turnover variance.",type:"Spread"},
- {rank:2,team:"Clemson",market:"-6.5",opp:"NC State",conf:87,prob:64,proj:"30–21",model:"-8.8",edge:"+2.3 pts",odds:"-110",why:"Front-seven pressure and explosive-play differential.",risk:"NC State red-zone defense.",type:"Spread"},
- {rank:3,team:"Texas",market:"ML -155",opp:"Oklahoma",conf:84,prob:69,proj:"28–20",model:"69%",edge:"+5.2 pts",odds:"-155",why:"Efficiency edge and matchup advantage in early downs.",risk:"Rivalry-game variance.",type:"Moneyline"},
- {rank:4,team:"Over",market:"52.5",opp:"Miami vs Louisville",conf:82,prob:61,proj:"30–27",model:"57.1",edge:"+4.6 pts",odds:"-108",why:"Tempo, explosive pass rate and red-zone profiles.",risk:"Weather forecast uncertainty.",type:"Total"}
-];
-const games=[
- {a:"Virginia Tech",b:"Pittsburgh",spread:"VT -3.5",total:"49.5",ml:"VT -155",edge:"+2.7",time:"Sat • 3:30 PM",loc:"Blacksburg, VA"},
- {a:"Clemson",b:"NC State",spread:"CLEM -6.5",total:"51.5",ml:"CLEM -245",edge:"+2.3",time:"Sat • 12:00 PM",loc:"Clemson, SC"},
- {a:"Texas",b:"Oklahoma",spread:"TEX -3.0",total:"47.5",ml:"TEX -155",edge:"+1.8",time:"Sat • 3:30 PM",loc:"Dallas, TX"},
- {a:"Miami",b:"Louisville",spread:"MIA -2.5",total:"52.5",ml:"MIA -135",edge:"+1.5",time:"Sat • 7:00 PM",loc:"Miami, FL"},
- {a:"Tennessee",b:"Arkansas",spread:"TEN -7.5",total:"56.5",ml:"TEN -285",edge:"+0.9",time:"Sat • 7:30 PM",loc:"Knoxville, TN"},
- {a:"Georgia",b:"Auburn",spread:"UGA -10.5",total:"51.0",ml:"UGA -420",edge:"+0.6",time:"Sat • 3:30 PM",loc:"Athens, GA"}
-];
-const CFBD_WORKER_URL="https://cfb-ai-api.williamryanshaffer.workers.dev/";
+const WORKER = "https://cfb-ai-api.williamryanshaffer.workers.dev/";
+const state = { games: [], odds: [], loaded: false };
 
-async function loadLiveGames(){
-  const status=document.getElementById("liveStatus");
-  if(status) status.textContent="Loading live schedule…";
-  try{
-    const res=await fetch(`${CFBD_WORKER_URL}?year=2026`);
-    if(!res.ok) throw new Error(`API returned ${res.status}`);
-    const data=await res.json();
-    const live=(data.games||[])
-      .filter(g=>g.startDate && (g.homeTeam || g.awayTeam))
-      .sort((a,b)=>new Date(a.startDate)-new Date(b.startDate));
+const $ = id => document.getElementById(id);
 
-    const now=Date.now();
-    const upcoming=live.filter(g=>new Date(g.startDate).getTime()>=now-6*60*60*1000);
-    const source=upcoming.length?upcoming:live;
+function esc(v){
+  return String(v ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+function dateTime(g){
+  const d = g.start_date || g.startDate || g.commence_time || g.start_time;
+  if(!d) return "Time unavailable";
+  const dt = new Date(d);
+  if(Number.isNaN(dt.getTime())) return esc(d);
+  return dt.toLocaleString([], {weekday:"short", month:"short", day:"numeric", hour:"numeric", minute:"2-digit"});
+}
+function teamNames(g){
+  return {
+    home: g.home_team || g.homeTeam || g.home || "Home Team",
+    away: g.away_team || g.awayTeam || g.away || "Away Team"
+  };
+}
+function normalizeOddsPayload(data){
+  // Accept several common Worker response shapes without changing the Worker.
+  let games = data.games || data.data || [];
+  if(!Array.isArray(games)) games = [];
+  let odds = data.odds || [];
+  if(!Array.isArray(odds)) odds = [];
 
-    games.length=0;
-    source.slice(0,24).forEach(g=>{
-      const dt=new Date(g.startDate);
-      const time=Number.isNaN(dt.getTime())?"Time TBD":dt.toLocaleString("en-US",{weekday:"short",month:"short",day:"numeric",hour:"numeric",minute:"2-digit",timeZoneName:"short"});
-      games.push({
-        a:g.awayTeam||"TBD",
-        b:g.homeTeam||"TBD",
-        spread:"—",
-        total:"—",
-        ml:"—",
-        edge:"—",
-        time,
-        loc:g.venue||"Venue TBD",
-        live:true
-      });
+  // If the Worker already merged odds into each game, keep that.
+  const merged = games.map(g => {
+    const names = teamNames(g);
+    const key = `${names.away}|${names.home}`;
+    const related = odds.filter(o => {
+      const a = o.away_team || o.awayTeam || o.away;
+      const h = o.home_team || o.homeTeam || o.home;
+      return a === names.away && h === names.home;
     });
+    return {...g, _relatedOdds: related};
+  });
+  return merged;
+}
+function marketRows(g){
+  const names = teamNames(g);
+  let books = g.bookmakers || g.bookmakers_data || g.odds_bookmakers || [];
+  if(!Array.isArray(books)) books = [];
+  if(!books.length && Array.isArray(g._relatedOdds)) {
+    books = g._relatedOdds.flatMap(o => o.bookmakers || []);
+  }
 
-    renderGames();
-    if(status) status.textContent=`Live schedule • ${games.length} games loaded`;
+  const spread = [], total = [], ml = [];
+  for(const b of books){
+    const bname = b.title || b.name || b.key || "Sportsbook";
+    const markets = b.markets || [];
+    for(const m of markets){
+      const key = String(m.key || m.market || "").toLowerCase();
+      const outcomes = m.outcomes || m.selections || [];
+      if(key.includes("spread")){
+        spread.push({book:bname,outcomes});
+      } else if(key.includes("total")){
+        total.push({book:bname,outcomes});
+      } else if(key.includes("h2h") || key.includes("moneyline") || key === "ml"){
+        ml.push({book:bname,outcomes});
+      }
+    }
+  }
+  // Some Worker versions expose direct arrays on the game.
+  if(!spread.length && Array.isArray(g.spreads)) spread.push(...g.spreads.map(x=>({book:x.bookmaker||x.book||"Sportsbook",outcomes:x.outcomes||x.lines||[]})));
+  if(!total.length && Array.isArray(g.totals)) total.push(...g.totals.map(x=>({book:x.bookmaker||x.book||"Sportsbook",outcomes:x.outcomes||x.lines||[]})));
+  if(!ml.length && Array.isArray(g.moneylines)) ml.push(...g.moneylines.map(x=>({book:x.bookmaker||x.book||"Sportsbook",outcomes:x.outcomes||x.lines||[]})));
+
+  return {spread,total,ml};
+}
+function outcomeText(o){
+  const name = o.name || o.team || o.description || "";
+  const point = o.point ?? o.line;
+  const price = o.price ?? o.odds;
+  return `${esc(name)}${point !== undefined && point !== null ? " " + esc(point) : ""}${price !== undefined && price !== null ? "  " + esc(price) : ""}`;
+}
+function renderMarket(title, rows){
+  if(!rows.length) return `<div class="market"><div class="market-title"><span>${title}</span><span>Unavailable</span></div><div class="book"><em>No live ${title.toLowerCase()} returned by the feed.</em></div></div>`;
+  return `<div class="market"><div class="market-title"><span>${title}</span><span>${rows.length} book${rows.length===1?"":"s"}</span></div>
+    <div class="books">${rows.map((r,i)=>`<div class="bookbox ${i===0?"best":""}"><div class="bookname">${esc(r.book)}</div>${(r.outcomes||[]).map(o=>`<div class="price">${outcomeText(o)}</div>`).join("")}</div>`).join("")}</div></div>`;
+}
+function render(){
+  const q = $("search").value.trim().toLowerCase();
+  const filtered = state.games.filter(g=>{
+    const n=teamNames(g);
+    return !q || n.home.toLowerCase().includes(q) || n.away.toLowerCase().includes(q);
+  });
+  if(!filtered.length){
+    $("games").innerHTML = `<div class="empty">No games match the current filter.</div>`;
+    return;
+  }
+  $("games").innerHTML = filtered.map(g=>{
+    const n=teamNames(g), m=marketRows(g);
+    return `<article class="card">
+      <div class="cardhead">
+        <div><div class="teams">${esc(n.away)} @ ${esc(n.home)}</div><div class="time">${dateTime(g)}</div></div>
+        <div class="book">${esc(g.venue || g.location || "")}</div>
+      </div>
+      ${renderMarket("Spread",m.spread)}
+      ${renderMarket("Moneyline",m.ml)}
+      ${renderMarket("Total",m.total)}
+    </article>`;
+  }).join("");
+}
+async function load(){
+  $("error").classList.add("hide");
+  $("statusText").textContent="Updating…";
+  $("statusDot").style.background="var(--gold)";
+  try{
+    const year = new Date().getFullYear();
+    const url = `${WORKER}?year=${year}`;
+    const res = await fetch(url, {cache:"no-store"});
+    if(!res.ok) throw new Error(`Worker returned HTTP ${res.status}`);
+    const data = await res.json();
+    state.games = normalizeOddsPayload(data);
+    state.loaded = true;
+    render();
+    $("statusText").textContent=`Live • ${state.games.length} games`;
+    $("statusDot").style.background="var(--green)";
   }catch(err){
-    console.error("Live schedule failed:",err);
-    if(status) status.textContent="Live schedule unavailable • showing demo markets";
+    console.error(err);
+    $("statusText").textContent="Connection error";
+    $("statusDot").style.background="var(--red)";
+    $("error").textContent=`Could not load live market data: ${err.message}. Check the Worker URL and browser console.`;
+    $("error").classList.remove("hide");
+    $("games").innerHTML="";
   }
 }
-
-function renderGames(){
-  const market=document.getElementById("marketTable");
-  const grid=document.getElementById("gameGrid");
-  if(!market||!grid)return;
-  market.innerHTML=games.map(g=>{
-    const o=g.odds; const bestSpread=bestMarket(o,"spreads"); const bestTotal=bestMarket(o,"totals"); const bestMl=bestMoneyline(o);
-    return `<tr><td><b>${g.a}</b> @ ${g.b}<div class="mini">${g.time}</div></td><td>${bestSpread?.display||"—"}</td><td>${bestTotal?.display||"—"}</td><td>${bestMl?.display||"—"}</td><td class="${o?'good':'sub'}">${o?"Live odds":"Schedule only"}</td></tr>`;
-  }).join("");
-  grid.innerHTML=games.map(g=>{
-    const o=g.odds; const bestSpread=bestMarket(o,"spreads"); const bestTotal=bestMarket(o,"totals"); const bestMl=bestMoneyline(o);
-    return `<div class="card game"><div><div class="teams">${g.a} @ ${g.b}</div><div class="time">${g.time} • ${g.loc}</div></div><div style="text-align:right"><div>${bestSpread?.display||"Spread —"}</div><div class="mini">${bestTotal?.display||"Total —"} • ${bestMl?.display||"ML —"}</div><div class="edge">${o?"Live sportsbook market":"Schedule verified"}</div><button class="btn" style="margin-top:8px" onclick="openGame('${(g.a||'').replace(/'/g,"\'")}')">Analyze</button></div></div>`;
-  }).join("");
-}
-
-const teams=[
- ["Virginia Tech","ACC","Power 87.4","+6.1","7–2 ATS"],
- ["Pittsburgh","ACC","Power 82.1","+2.4","5–4 ATS"],
- ["Clemson","ACC","Power 90.2","+7.3","6–3 ATS"],
- ["Tennessee","SEC","Power 92.0","+8.1","6–3 ATS"],
- ["Georgia","SEC","Power 96.4","+9.8","5–4 ATS"],
- ["Texas","SEC","Power 94.1","+7.9","7–2 ATS"]
-];
-function bestMarket(odds,type){
-  if(!odds?.best?.[type]) return null;
-  const vals=Object.entries(odds.best[type]);
-  if(!vals.length) return null;
-  const [name,x]=vals[0];
-  return {display:`${name} ${x.point!==null&&x.point!==undefined?x.point+" ":""}${x.price>0?"+":""}${x.price} (${x.bookmaker})`, raw:x};
-}
-function bestMoneyline(odds){
-  if(!odds?.best?.h2h) return null;
-  const vals=Object.entries(odds.best.h2h); if(!vals.length) return null;
-  const [name,x]=vals[0];
-  return {display:`${name} ${x.price>0?"+":""}${x.price} (${x.bookmaker})`, raw:x};
-}
-function pickCard(p){return `<div class="card pick"><div class="pickTop"><div class="rank">#${p.rank} ${p.type}</div><div class="tag">${p.conf}/100</div></div><div class="match">${p.team} ${p.market}</div><div class="market">vs ${p.opp} • Best price ${p.odds}</div><div class="numbers"><div class="num"><b>${p.prob}%</b><span>Model probability</span></div><div class="num"><b>${p.model}</b><span>Model projection</span></div><div class="num"><b>${p.edge}</b><span>Model edge</span></div></div><div class="statLabel">Confidence</div><div class="bar"><i style="width:${p.conf}%"></i></div><div class="why" style="margin-top:12px"><strong>Why:</strong> ${p.why}<br><strong>Risk:</strong> ${p.risk}</div><button class="btn" style="margin-top:14px;width:100%" onclick="openGame('${p.team}')">View full analysis</button></div>`}
-document.getElementById("dashPicks").innerHTML=picks.slice(0,3).map(pickCard).join("");
-document.getElementById("allPicks").innerHTML=picks.map(pickCard).join("");
-renderGames();
-loadLiveGames();
-document.getElementById("teamGrid").innerHTML=teams.map(t=>`<div class="card"><div class="eyebrow">${t[1]}</div><div class="match">${t[0]}</div><div class="numbers"><div class="num"><b>${t[2]}</b><span>Power</span></div><div class="num"><b>${t[3]}</b><span>Rating edge</span></div><div class="num"><b>${t[4]}</b><span>ATS</span></div></div><button class="btn" onclick="openGame('${t[0]}')">View team intelligence</button></div>`).join("");
-document.getElementById("moves").innerHTML=[["Virginia Tech","-2.5 → -3.5","Model still +2.7 pts"],["Clemson","-5.5 → -6.5","Model +2.3 pts"],["Texas","-2.0 → -3.0","Model +1.8 pts"]].map(x=>`<div style="padding:12px 0;border-bottom:1px solid var(--line)"><b>${x[0]}</b><div class="sub">${x[1]} • <span class="good">${x[2]}</span></div></div>`).join("");
-document.getElementById("calChart").innerHTML=[48,55,63,72,81,88,93].map(v=>`<span style="height:${v}%"></span>`).join("");
-function showView(id){document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===id));const titles={dashboard:"Good afternoon, Will.",picks:"AI Picks of the Week",games:"Games & Markets",teams:"Team Intelligence",parlay:"Parlay Lab",model:"Model Lab",learning:"What the Model Learned"};document.getElementById("pageTitle").textContent=titles[id]||"CFB AI";window.scrollTo(0,0)}
-document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>showView(b.dataset.view));
-function openGame(team){showView("games");setTimeout(()=>{document.querySelectorAll(".game").forEach(x=>x.style.outline="none");const target=[...document.querySelectorAll(".game")].find(x=>x.innerText.includes(team));if(target){target.style.outline="2px solid var(--accent)";target.scrollIntoView({behavior:"smooth",block:"center"})}},50)}
-let parlayMode="Conservative";
-function setParlay(mode,el){parlayMode=mode;document.querySelectorAll("#parlay .btn").forEach(b=>b.classList.remove("primary"));el.classList.add("primary");renderParlay()}
-function renderParlay(){const n=parlayMode==="Conservative"?2:parlayMode==="Moderate"?3:5;const legs=picks.slice(0,n);document.getElementById("parlayLegs").innerHTML=legs.map((p,i)=>`<div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line)"><div><b>${i+1}. ${p.team} ${p.market}</b><div class="mini">${p.prob}% model probability • ${p.odds}</div></div><span class="good">${p.edge}</span></div>`).join("");const prob=legs.reduce((a,p)=>a*(p.prob/100),1);document.getElementById("parlayMath").innerHTML=`<div class="statLabel">Model-estimated combined probability*</div><div class="stat">${(prob*100).toFixed(1)}%</div><div class="sub" style="margin-top:8px">*Demo calculation assumes independence. Production version must model leg correlation and use live odds.</div><div style="margin-top:20px"><button class="btn primary" onclick="alert('In the production build this would refresh against live markets.')">Refresh market</button></div>`}
-renderParlay();
-document.getElementById("teamSearch").addEventListener("input",e=>{const q=e.target.value.toLowerCase();document.querySelectorAll(".card").forEach(c=>{if(!q){c.style.display="" ;return} c.style.display=c.innerText.toLowerCase().includes(q)?"":"none"})});
+$("refresh").addEventListener("click",load);
+$("search").addEventListener("input",render);
+load();
 </script>
 </body>
 </html>
